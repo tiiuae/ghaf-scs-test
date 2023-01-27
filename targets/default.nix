@@ -1,5 +1,6 @@
 {
   self,
+  nixpkgs,
   nixos-generators,
   microvm,
   jetpack-nixos,
@@ -19,7 +20,7 @@
     format = "vm";
   };
 
-  packages.x86_64-linux.intel-nuc = nixos-generators.nixosGenerate {
+  packages.x86_64-linux.intel-nuc = let img = nixos-generators.nixosGenerate {
     system = "x86_64-linux";
     modules = [
       microvm.nixosModules.host
@@ -29,6 +30,16 @@
       ../modules/development/ssh.nix
     ];
     format = "raw-efi";
+  };
+  in
+    nixpkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation {
+    name = "intel-nuc";
+    src = img;
+    installPhase = ''
+      mkdir -pv $out
+      cp -v * $out/
+      mv -v $out/nixos.img $out/intel-nuc-nixos.img
+    '';
   };
 
   packages.x86_64-linux.default = self.packages.x86_64-linux.vm;
