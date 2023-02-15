@@ -29,6 +29,10 @@
       url = "github:anduril/jetpack-nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-riscv64 = {
+      url = "github:zhaofengli/nixos-riscv64";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -38,6 +42,7 @@
     nixos-generators,
     microvm,
     jetpack-nixos,
+    nixos-riscv64
   }: let
     systems = with flake-utils.lib.system; [
       x86_64-linux
@@ -87,7 +92,7 @@
       }
 
       # Final target images
-      (import ./targets {inherit self nixos-generators microvm jetpack-nixos;})
+      (import ./targets {inherit self nixos-generators microvm jetpack-nixos nixos-riscv64;})
 
       # Hydra jobs
       (import ./hydrajobs.nix {inherit self;})

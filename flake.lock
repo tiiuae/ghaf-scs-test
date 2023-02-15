@@ -95,6 +95,26 @@
         "type": "github"
       }
     },
+    "nixos-riscv64": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1674346132,
+        "narHash": "sha256-qu91B3pUeq1x4/gr47bZwzxgQgze0XI2zvpX0h/0TdE=",
+        "owner": "zhaofengli",
+        "repo": "nixos-riscv64",
+        "rev": "def02c67833bf551288c5cbd8ed6652b255d2fe8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zhaofengli",
+        "repo": "nixos-riscv64",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1672353432,
@@ -117,6 +137,7 @@
         "jetpack-nixos": "jetpack-nixos",
         "microvm": "microvm",
         "nixos-generators": "nixos-generators",
+        "nixos-riscv64": "nixos-riscv64",
         "nixpkgs": "nixpkgs"
       }
     }
