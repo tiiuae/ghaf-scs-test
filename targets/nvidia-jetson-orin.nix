@@ -66,10 +66,44 @@
       package = tgt.package;
       hostConfiguration = tgt.hostConfiguration;
     };
+  guivm = nixpkgs.lib.nixosSystem {
+    inherit system;
+    modules = [
+      # TODO: Enable only for development builds
+      ../modules/development/authentication.nix
+      ../modules/development/ssh.nix
+      ../modules/development/packages.nix
+
+      ../modules/graphics/weston.nix
+
+      microvm.nixosModules.microvm
+
+      ({pkgs, ...}: {
+        networking.hostName = "guivm";
+        # TODO: Maybe inherit state version
+        system.stateVersion = "22.11";
+
+        microvm.hypervisor = "qemu";
+
+        networking.enableIPv6 = false;
+        networking.interfaces.eth0.useDHCP = true;
+        networking.firewall.allowedTCPPorts = [22];
+
+        microvm.interfaces = [
+          {
+            type = "tap";
+            id = "vm-guivm";
+            mac = "02:00:00:01:01:02";
+          }
+        ];
+      })
+    ];
+  };
 in {
   nixosConfigurations =
     builtins.listToAttrs (map (t: nixpkgs.lib.nameValuePair t.name t.hostConfiguration) (targets ++ crossTargets))
-    // builtins.listToAttrs (map (t: nixpkgs.lib.nameValuePair t.netvm t.netvmConfiguration) targets);
+    // builtins.listToAttrs (map (t: nixpkgs.lib.nameValuePair t.netvm t.netvmConfiguration) targets)
+    // {guivm = guivm;};
 
   packages = {
     aarch64-linux =

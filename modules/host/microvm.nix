@@ -10,4 +10,9 @@
     flake = self;
     autostart = true;
   };
+
+  microvm.vms."guivm" = {
+    flake = self;
+    autostart = false;
+  };
 }

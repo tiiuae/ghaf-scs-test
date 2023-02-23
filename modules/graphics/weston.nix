@@ -9,5 +9,6 @@
   environment.noXlibs = false;
   environment.systemPackages = with pkgs; [
     weston
+    kmscube
   ];
 }
