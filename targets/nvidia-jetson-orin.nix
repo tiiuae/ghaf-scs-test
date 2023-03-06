@@ -53,6 +53,16 @@
         ];
       };
       package = hostConfiguration.config.system.build.${hostConfiguration.config.formatAttr};
+      netvm = tgt.netvm + "-from-x86_64";
+      netvmConfiguration = (import ../microvmConfigurations/netvm {
+        inherit nixpkgs microvm system;
+      }).extendModules({
+        modules = [
+          {
+            nixpkgs.buildPlatform.system = "x86_64-linux";
+          }
+	];
+      });
     };
   targets = [
     nvidia-jetson-orin-debug

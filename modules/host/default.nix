@@ -14,6 +14,11 @@
     ./networking.nix
   ];
 
+  virtualisation = {
+    waydroid.enable = true;
+    lxd.enable = true;
+  };
+
   networking.hostName = "ghaf-host";
   system.stateVersion = "22.11";
 }
