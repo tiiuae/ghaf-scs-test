@@ -41,6 +41,7 @@
   espSize = builtins.readFile "${images}/esp.size";
   rootSize = builtins.readFile "${images}/root.size";
   partitionsEmmc = nixpkgs.legacyPackages.x86_64-linux.writeText "sdmmc.xml" ''
+    <device type="nvme" instance="0" sector_size="512" num_sectors="488281250">
     <partition name="master_boot_record" type="protective_master_boot_record">
       <allocation_policy> sequential </allocation_policy>
       <filesystem_type> basic </filesystem_type>
@@ -99,7 +100,7 @@
     ...
   }: let
     partitionTemplate = nixpkgs.legacyPackages.x86_64-linux.runCommand "flash.xml" {} ''
-      head -n 588 ${pkgs.nvidia-jetpack.bspSrc}/bootloader/t186ref/cfg/flash_t234_qspi_sdmmc.xml >$out
+      head -n 587 ${pkgs.nvidia-jetpack.bspSrc}/bootloader/t186ref/cfg/flash_t234_qspi_sdmmc.xml >$out
 
       # Replace the section for sdmmc-device with our own section
       cat ${partitionsEmmc} >>$out
@@ -109,7 +110,7 @@
   in {
     hardware.nvidia-jetpack.flashScriptOverrides = {
       partitionTemplate = partitionTemplate;
-      flashArgs = "-r ${config.hardware.nvidia-jetpack.flashScriptOverrides.targetBoard} mmcblk0p1";
+      flashArgs = "-r ${config.hardware.nvidia-jetpack.flashScriptOverrides.targetBoard} nvme0n1";
     };
   };
   image = hostConfiguration.extendModules {
