@@ -8,4 +8,6 @@
     # For lsusb:
     usbutils
   ];
+
+  virtualisation.docker.enable = true;
 }
