@@ -15,7 +15,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=90e664602857676615322b8fb5ddbed607b77a82";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=6a9788519f76fd732224cc7e4e64425b4be966f";
     flake-utils.url = "github:numtide/flake-utils";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
